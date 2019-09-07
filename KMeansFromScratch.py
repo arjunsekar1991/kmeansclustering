@@ -96,7 +96,7 @@ class KMeans:
     def plotKMeans(self,iterationResults, x_axis_label="", y_axis_label="", z_axis_label="", plot_title=""):
 
             fig = plt.figure()
-
+            colors = ['r','g','b','y']
             ax = fig.add_subplot(111, projection='3d')
             print("new centroid")
             for centroidIndex,dataPoints in iterationResults.items():
@@ -110,8 +110,8 @@ class KMeans:
                 print("numpy datapoints")
 
                 print(numpy.array(dataPoints))
-                ax.scatter(finalData[:,0],finalData[:,1],finalData[:,2],c='r', marker='o' )
-                ax.scatter(self.centroid[centroidIndex][0],self.centroid[centroidIndex][1],self.centroid[centroidIndex][2],c='b', marker='o');
+                ax.scatter(finalData[:,0],finalData[:,1],finalData[:,2],c=colors[centroidIndex], marker='o' )
+                ax.scatter(self.centroid[centroidIndex][0],self.centroid[centroidIndex][1],self.centroid[centroidIndex][2],c=colors[centroidIndex], marker='*');
                # ax.scatter(x, y, z, c='r', marker='o')
 
                 ax.set_xlabel('X Label')
@@ -120,7 +120,7 @@ class KMeans:
 
             plt.show()
 
-kmeansObj = KMeans(inputDataFrame=points, numberOfClusters=4)
+kmeansObj = KMeans(inputDataFrame=points, numberOfClusters=2)
 
 kmeansObj.generateRandomInitialCentroids()
 iterationResults = kmeansObj.runKMeansCoreAlgoritm()
