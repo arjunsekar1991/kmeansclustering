@@ -12,8 +12,8 @@ class KMeans:
         self.inputData = inputDataFrame
         self.numberOfClusters = numberOfClusters
         self.numberOfInstances, self.numberOfFeatures = self.inputData.shape
-        print(self.numberOfInstances)
-        print(self.numberOfFeatures)
+        #print(self.numberOfInstances)
+        #print(self.numberOfFeatures)
         #this saved states are fucked up we need to clean this to only the latest
         self.clusters_all_iterations_record = []
 
@@ -22,11 +22,11 @@ class KMeans:
 
     def generateRandomInitialCentroids(self):
 
-        #random_dataset_indices = random.sample(range(0, self.number_of_instances), self.k_number_of_clusters)
+        
         #we choose random centroids based on the number of clusters required
         randomCentroidsFromInputData = random.sample(list(self.inputData),self.numberOfClusters)
         print(randomCentroidsFromInputData)
-        #return new_array
+        return randomCentroidsFromInputData
 
 
 
