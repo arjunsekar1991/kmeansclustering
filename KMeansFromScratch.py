@@ -6,19 +6,27 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 
 points = numpy.array([[1, 2, 2], [3, 2, 2], [6, 5, 5], [6,5,1]])
-MAX_ITER = 100
+
 class KMeans:
     def __init__(self, inputDataFrame, numberOfClusters):
         self.inputData = inputDataFrame
         self.numberOfClusters = numberOfClusters
         self.numberOfInstances, self.numberOfFeatures = self.inputData.shape
+        self.centroid =[]
+        self.MAX_ITER = 100
         #print(self.numberOfInstances)
         #print(self.numberOfFeatures)
-        #this saved states are fucked up we need to clean this to only the latest
-        self.clusters_all_iterations_record = []
 
     def calculateEuclideanDistance(self,centroid, inputDataPoint):
         return numpy.linalg.norm(centroid - inputDataPoint)
+
+    #def recalculateCentroids(self,clusterAllocationResult):
+    def isCentroidChanged(self,oldCentroid,newCentroid):
+        if (self.calculateEuclideanDistance(oldCentroid,newCentroid) ==0):
+            return False
+        else:
+            return True
+
 
     def generateRandomInitialCentroids(self):
 
@@ -55,19 +63,69 @@ class KMeans:
 
 
     def runKMeansCoreAlgoritm(self):
-        randomIntialCentroidsFromInputData = self.generateRandomInitialCentroids()
+        self.centroid = self.generateRandomInitialCentroids()
         print("random centroids are")
-        print(randomIntialCentroidsFromInputData)
-        #for iteration in range(self.MAX_ITER):
-        iterationResults = self.assignDataPointToClosestCentroid(randomIntialCentroidsFromInputData)
-        print(iterationResults)
-        #proper membership print
-        for x,y in iterationResults.items():
-            print(randomIntialCentroidsFromInputData[x],y)
+        print(self.centroid)
+        for iteration in range(self.MAX_ITER):
+            print("iterationcount")
+            iterationResults = self.assignDataPointToClosestCentroid(self.centroid)
+            print(iterationResults)
+            newUpdatedCentroids = []
+            #proper membership print
+            for centroids,dataPoints in iterationResults.items():
+                #print(randomIntialCentroidsFromInputData[x],y)
+                newUpdatedCentroids.append(numpy.mean(dataPoints, axis=0))
+
+
+            result = self.isCentroidChanged(self.centroid,numpy.array(newUpdatedCentroids))
+            if result == True:
+
+                print("algorithm not Converged")
+                self.centroid =[]
+                self.centroid=newUpdatedCentroids
+                print("new updated centroids")
+                print(newUpdatedCentroids)
+            else:
+                print("algorithm Converged")
+                break;
+        return iterationResults
+        #updatedCentroids = self.recalculateCentroids(randomIntialCentroidsFromInputData)
 
 
 
-kmeansObj = KMeans(inputDataFrame=points, numberOfClusters=2)
+    def plotKMeans(self,iterationResults, x_axis_label="", y_axis_label="", z_axis_label="", plot_title=""):
+
+            fig = plt.figure()
+
+            ax = fig.add_subplot(111, projection='3d')
+            print("new centroid")
+            for centroidIndex,dataPoints in iterationResults.items():
+                 print(self.centroid[centroidIndex],dataPoints)
+
+            print("end of clustering results")
+            for centroidIndex,dataPoints in iterationResults.items():
+                print("final centroids")
+
+                finalData = numpy.array(dataPoints)
+                print("numpy datapoints")
+
+                print(numpy.array(dataPoints))
+                ax.scatter(finalData[:,0],finalData[:,1],finalData[:,2],c='r', marker='o' )
+                ax.scatter(self.centroid[centroidIndex][0],self.centroid[centroidIndex][1],self.centroid[centroidIndex][2],c='b', marker='o');
+               # ax.scatter(x, y, z, c='r', marker='o')
+
+                ax.set_xlabel('X Label')
+                ax.set_ylabel('Y Label')
+                ax.set_zlabel('Z Label')
+
+            plt.show()
+
+kmeansObj = KMeans(inputDataFrame=points, numberOfClusters=4)
 
 kmeansObj.generateRandomInitialCentroids()
-kmeansObj.runKMeansCoreAlgoritm()
+iterationResults = kmeansObj.runKMeansCoreAlgoritm()
+kmeansObj.plotKMeans(iterationResults)
+
+
+
+
