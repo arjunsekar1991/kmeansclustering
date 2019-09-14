@@ -183,10 +183,7 @@ iterationResults = kmeansObj.runKMeansCoreAlgoritm ()
 clusterLabels = kmeansObj.calculateClusterMembership ()
 print ("iteation results", iterationResults)
 kmeansObj.clusteredData = [iterationResults[k] for k in range(kmeansObj.numberOfClusters)]
-# kmeansObj.plotKMeans(iterationResults)
-# print(kmeansObj.clusterMembership)
-# print(kmeansObj.inputData)
-# print(kmeansObj.centroid)
+print("clustered Data",kmeansObj.clusteredData)
 print (kmeansObj.daviesBouldinIndex())
-updatedData = []
+
 
