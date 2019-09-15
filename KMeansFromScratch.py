@@ -185,5 +185,6 @@ print ("iteation results", iterationResults)
 kmeansObj.clusteredData = [iterationResults[k] for k in range(kmeansObj.numberOfClusters)]
 print("clustered Data",kmeansObj.clusteredData)
 print (kmeansObj.daviesBouldinIndex())
+kmeansObj.plotKMeans(iterationResults)
 
 
