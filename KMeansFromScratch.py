@@ -103,7 +103,7 @@ class KMeans:
     def plotKMeans(self, iterationResults, x_axis_label="", y_axis_label="", z_axis_label="", plot_title=""):
 
         fig = plt.figure ()
-        colors = ['r', 'g', 'b', 'y']
+        colors = ['r', 'g', 'b', 'y','c','m']
         ax = fig.add_subplot (111, projection='3d')
         # print("new centroid")
         # for centroidIndex,dataPoints in iterationResults.items():
@@ -177,7 +177,7 @@ class KMeans:
 
 
 
-#kmeansObj.plotKMeans(iterationResults)
+#
 
 import csv
 
@@ -198,7 +198,7 @@ print(len(df))
 print(df.to_numpy())
 points =df.to_numpy()
 
-kmeansObj = KMeans (inputDataFrame=points, numberOfClusters=6)
+kmeansObj = KMeans (inputDataFrame=points, numberOfClusters=4)
 
 kmeansObj.generateRandomInitialCentroids ()
 iterationResults = kmeansObj.runKMeansCoreAlgoritm ()
@@ -207,4 +207,5 @@ print ("iteation results", iterationResults)
 kmeansObj.clusteredData = [iterationResults[k] for k in range(kmeansObj.numberOfClusters)]
 print("clustered Data",kmeansObj.clusteredData)
 print (kmeansObj.daviesBouldinIndex())
+kmeansObj.plotKMeans(iterationResults)
 
